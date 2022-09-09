@@ -1,6 +1,6 @@
 import Joi from 'joi'
-import User from '../models/userModel.js';
-import catchAsync from '../managers/catchAsync.js'
+import User from '../../models/userModel.js';
+import catchAsync from '../../managers/catchAsync.js'
 import { isValidNumber } from 'libphonenumber-js';
 
 const joiUserCreateSchema = Joi.object({

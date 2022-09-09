@@ -23,12 +23,12 @@ export const filterBody=(req, res, next)=>{
     next()
 }
 
-export const uploadProficPic = uploadPic("profilePic")
-export const resizeUserPic = resizePic("project", 500, 500)
+export const uploadProficPic = uploadPic("profilePic");
+export const resizeUserPic = resizePic("project", 500, 500);
 
-export const getAllUsers=getAllDocs(User)
+export const getAllUsers=getAllDocs(User);
 
-export const getUser= getDoc(User)
+export const getUser= getDoc(User);
 
 export const updateUser = updateDoc(User);
 
@@ -38,24 +38,6 @@ export const deleteUser = catchAsync(async (req, res, next)=>{
         status:"success",
         requestedAt: req.requestedAt,
         data:null
-    })
-})
-
-export const follow= catchAsync(async (req, res, next)=>{
-
-    const user=await User.findById(req.user.id)
-    if(!user.isFollowing(req.body.id)) {
-        user.update({following:[...user.following, req.body.id]}, function (err, result) {
-        if (err) return new AppError(String(err), 400)
-    })
-        user.following=[...user.following, req.body.id]
-    }
-    else return next(new AppError("Already following this user"))
-
-    res.status(200).json({
-        status:"success",
-        requestedAt: req.requestedAt,
-        data:user
     })
 })
 
