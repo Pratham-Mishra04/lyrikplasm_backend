@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-emails=[];
-
 const songSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -32,7 +30,7 @@ const songSchema = new mongoose.Schema({
     songType:{
         type:String,
         enum:{
-            values:['orginal','cover','remix','mashup']
+            values:['original','cover','remix','mashup']
         }
     },
     submissionType:{
@@ -67,7 +65,7 @@ const songSchema = new mongoose.Schema({
 },{
     toJSON : {virtuals:true},
     toObject : {virtuals:true} 
-})
+});
 
 const Song = mongoose.model("Song", songSchema);
 

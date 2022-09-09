@@ -16,7 +16,7 @@ const joiSongCreateSchema = Joi.object({
     isClosed:Joi.forbidden(),
     remarks:Joi.forbidden(),
     songType:Joi.string().required(),
-    submissionType:Joi.string.required(),
+    submissionType:Joi.string().required(),
     videoRequested:Joi.object({
         isUploaded:Joi.forbidden(),
         uploadedAt:Joi.forbidden(),

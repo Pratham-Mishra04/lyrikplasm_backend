@@ -13,7 +13,7 @@ userRouter.post('/forgotPassword', forgotPassword)
 userRouter.post('/resetPassword', resetPassword)
 
 userRouter.get('/', getAllUsers)
-userRouter.route('/:id')
+userRouter.route('/:userID')
 .get(protect, getUser)
 .patch(protect, joiUserUpdateValidator, uploadProficPic, resizeUserPic, filterBody, updateUser)
 .delete(protect, deleteUser)

@@ -1,8 +1,9 @@
-import User from "../models/userModel";
-import Song from "../models/songModel";
-import catchAsync from "../managers/catchAsync";
+import catchAsync from "../managers/catchAsync.js";
 
 export const setDueAmount = catchAsync(async(req, res, next)=>{
+    req.body.payment={
+        "dueAmount":null
+    }
     if(req.body.submissionType=='cat1'){
         if(req.body.videoRequested.videoType=='regular') req.body.payment.dueAmount=25*0.75;
         else if(req.body.videoRequested.videoType=='audio spectrum') req.body.payment.dueAmount=15*0.75;

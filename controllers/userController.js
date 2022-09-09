@@ -21,7 +21,7 @@ export const filterBody=(req, res, next)=>{
     if(req.file) filteredBody.profilePic= req.file.filename;
     req.body=filteredBody;
     next()
-}
+} 
 
 export const uploadProficPic = uploadPic("profilePic");
 export const resizeUserPic = resizePic("project", 500, 500);

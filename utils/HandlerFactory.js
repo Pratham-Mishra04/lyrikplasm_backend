@@ -8,6 +8,10 @@ export const getAllDocs = Model => catchAsync(async (req, res, next)=>{
 
     features.filter().sort().fields().paginator();
 
+    if(Model==User) features.query = features.query.populate({
+        path:"songs",
+        select:"name"
+    })
     const docs = await features.query
 
     res.status(200).json({
@@ -19,7 +23,7 @@ export const getAllDocs = Model => catchAsync(async (req, res, next)=>{
 })
 
 export const getAllDocsByUser = Model => catchAsync(async (req, res, next)=>{
-    const user = await User.findOne({_id:req.params.id})
+    const user = await User.findOne({_id:req.user.id})
     if(!user) return next(new AppError("No user of this ID found.", 401))
     const userID=user.id;
     const features = new APIFeatures(Model.find({user:userID}),req.query)
@@ -37,7 +41,12 @@ export const getAllDocsByUser = Model => catchAsync(async (req, res, next)=>{
 })
 
 export const getDoc = Model => catchAsync(async (req, res, next)=>{
-    const doc=await Model.findById(req.params.id);
+    var query= Model.findById(req.params.id || req.params.userID);
+    if(Model=User) query = query.populate({
+        path:"songs",
+        select:"name"
+    })
+    const doc= await query;
     if(!doc) return next(new AppError("No document of this ID found", 401))
     res.status(200).json({
         status:"success",
@@ -69,7 +78,7 @@ export const createDoc = Model => catchAsync( async(req, res, next)=>{
 })
 
 export const updateDoc = (Model, filteredBody)=> catchAsync(async (req, res, next)=>{
-    const doc= await Model.findByIdAndUpdate(req.params.id, req.body, {
+    const doc= await Model.findByIdAndUpdate(req.params.id || req.params.userID, req.body, {
         new:true,
         runValidators:true
     })

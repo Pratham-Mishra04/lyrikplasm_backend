@@ -6,10 +6,11 @@ import sendEmail from "../utils/Email.js";
 import resizePic from "../utils/resizePic.js";
 import uploadPic from "../utils/uploadPic.js";
 
-export const checkSong = id =>catchAsync(async(req, res, next)=>{
-    const song= await Song.findById(id);
+export const checkSong =(async(req, res, next)=>{
+    const song= await Song.findById(req.params.id);
     if(!song) return next(new AppError("No Song Request of this ID found."));
     req.song= song;
+    next()
 })
 
 export const getAllSongs=getAllDocsByUser(Song);

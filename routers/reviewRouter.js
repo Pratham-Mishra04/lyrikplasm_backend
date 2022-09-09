@@ -1,7 +1,7 @@
 import express from 'express'
-import { adminOnly, protect } from '../Controllers/authController';
-import { checkReview, deleteReview, getAllReviews, getReview, markAnswered, markClosed, postReview, updateReview } from '../controllers/reviewController';
-import { joiReviewCreateValidator } from '../utils/joiValidators/reviewValidator';
+import { adminOnly, protect } from '../Controllers/authController.js';
+import { checkReview, deleteReview, getAllReviews, getReview, markAnswered, markClosed, postReview, updateReview } from '../controllers/reviewController.js';
+import { joiReviewCreateValidator } from '../utils/joiValidators/reviewValidator.js';
 
 const reviewRouter = express.Router();
 

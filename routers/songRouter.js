@@ -1,8 +1,8 @@
 import express from 'express'
-import { adminOnly, protect } from '../Controllers/authController';
-import { checkSong, deleteSong, getAllSongs, getSong, markPaid, markUploaded, postSong, requestAccepted, requestRejected, updateSong } from '../controllers/songController';
-import { joiSongCreateValidator, joiSongUpdateValidator } from '../utils/joiValidators/songValidator';
-import { discounts, setDueAmount } from '../utils/paymentsHandler';
+import { adminOnly, protect } from '../Controllers/authController.js';
+import { checkSong, deleteSong, getAllSongs, getSong, markPaid, markUploaded, postSong, requestAccepted, requestRejected, updateSong } from '../controllers/songController.js';
+import { joiSongCreateValidator, joiSongUpdateValidator } from '../utils/joiValidators/songValidator.js';
+import { discounts, setDueAmount } from '../utils/paymentsHandler.js';
 
 const songRouter = express.Router();
 

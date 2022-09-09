@@ -8,7 +8,9 @@ import userRouter from "./routers/userRouter.js";
 import helmet from "helmet";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import bodyParser from "body-parser";
+import reviewRouter from './routers/reviewRouter.js'
 import cors from 'cors'
+import songRouter from "./routers/songRouter.js";
 
 const __dirname=path.resolve() 
 dotenv.config();
@@ -31,6 +33,8 @@ app.use((req,res,next)=>{
 })
 
 app.use("/users", userRouter)
+app.use("/songRequest", songRouter)
+app.use("reviewRequet", reviewRouter)
 
 app.all("*", (req, res, next)=>{
     next(new AppError(`Cannot find ${req.originalUrl}`, 404))

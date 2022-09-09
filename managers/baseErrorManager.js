@@ -5,7 +5,7 @@ export const uncaughtExceptionManager = process.on('uncaughtException', err=>{
     process.exit(1);
 });
 
-export const unhandledRejectionManager = process.on('unhandledRejection', err=>{ 
+export const unhandledRejectionManager = server => process.on('unhandledRejection', err=>{ 
     console.log(err);
     console.log("Unhandled Rejection! Shutting Down the App....");
     server.close(()=>{

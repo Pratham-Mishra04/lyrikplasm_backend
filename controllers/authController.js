@@ -56,9 +56,12 @@ export const protect = catchAsync(async (req, res, next)=>{
 
     const decoded= await promisify(jwt.verify)(token, envHandler("JWT_KEY"))
 
-    const user= await User.findById(decoded.id)
+    const user= await User.findById(decoded.id).populate({
+        path:"songs",
+        select:"name"
+    })
 
-    if(req.params.id && decoded.id!=req.params.id) return next(new AppError("Please Login in as the Modifying User.", 401))
+    if(req.params.userID && decoded.id!=req.params.userID) return next(new AppError("Please Login in as the Modifying User.", 401))
 
     if(!user) return next(new AppError("User of this token no longer exists", 401))
 
