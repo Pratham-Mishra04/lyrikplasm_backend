@@ -12,25 +12,6 @@ export const checkSong = id =>catchAsync(async(req, res, next)=>{
     req.song= song;
 })
 
-export const setDueAmount = catchAsync(async(req, res, next)=>{
-    const data = req.body;
-    // if(data.submissionType=='cat1'){
-    //     if(data.videoRequested.videoType=='regular')
-    //     else if(data.videoRequested.videoType=='audio spectrum')
-    //     else if(data.videoRequested.videoType=='something different')
-    // }
-    // else if(data.submissionType=='cat2'){
-    //     if(data.videoRequested.videoType=='regular')
-    //     else if(data.videoRequested.videoType=='audio spectrum')
-    //     else if(data.videoRequested.videoType=='something different')
-    // }
-    // else if(data.submissionType=='cat3'){
-    //     if(data.videoRequested.videoType=='regular')
-    //     else if(data.videoRequested.videoType=='audio spectrum')
-    //     else if(data.videoRequested.videoType=='something different')
-    // }
-})
-
 export const getAllSongs=getAllDocsByUser(Song);
 
 export const getSong= getDoc(Song);

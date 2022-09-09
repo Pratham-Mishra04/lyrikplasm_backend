@@ -85,7 +85,7 @@ userSchema.virtual('songs',{
 
 userSchema.virtual('numSongs').get(function(){
     if(this.songs) return this.songs.length
-    return undefined
+    return 0
 })
 
 userSchema.pre(/^find/, function(next){

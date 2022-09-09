@@ -2,12 +2,13 @@ import express from 'express'
 import { adminOnly, protect } from '../Controllers/authController';
 import { checkSong, deleteSong, getAllSongs, getSong, markPaid, markUploaded, postSong, requestAccepted, requestRejected, updateSong } from '../controllers/songController';
 import { joiSongCreateValidator, joiSongUpdateValidator } from '../utils/joiValidators/songValidator';
+import { discounts, setDueAmount } from '../utils/paymentsHandler';
 
 const songRouter = express.Router();
 
 songRouter.route('/')
 .get(protect, getAllSongs)
-.post(protect, joiSongCreateValidator, postSong)
+.post(protect, joiSongCreateValidator, setDueAmount, discounts, postSong)
 
 songRouter.route('/:id')
 .get(protect, checkSong, getSong)
