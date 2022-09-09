@@ -28,7 +28,7 @@ const reviewSchema = new mongoose.Schema({
         default:Date.now()
     },
     isAnswered:Boolean,
-    answeredAt:Date
+    isClosed:Boolean
 })
 
 const Review = mongoose.model("Review", reviewSchema);

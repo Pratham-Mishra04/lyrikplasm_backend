@@ -14,8 +14,8 @@ songRouter.route('/:id')
 .patch(protect, joiSongUpdateValidator, checkSong, updateSong)
 .delete(protect, deleteSong)
 
-songRouter.post("acceptRequest/:id", protect, checkSong, requestAccepted)
-songRouter.post("rejectRequest/:id", protect, checkSong, requestRejected)
+songRouter.post("acceptRequest/:id", protect, adminOnly, checkSong, requestAccepted)
+songRouter.post("rejectRequest/:id", protect, adminOnly, checkSong, requestRejected)
 songRouter.post("uploaded/:id", protect, adminOnly, checkSong, markUploaded)
 songRouter.post("paid/:id", protect, adminOnly, checkSong, markPaid)
 

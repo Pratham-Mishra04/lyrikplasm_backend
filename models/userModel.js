@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema({
         type:Date,
         default:Date.now()
     },
+    isFlaged:{
+        type:Boolean,
+        default:false
+    },
     organisationAcc:{
         type:Boolean,
         default:false

@@ -1,4 +1,4 @@
-import Song from "../models/songModel";
+import Song from "../models/songModel.js";
 import AppError from "../managers/AppError.js";
 import catchAsync from "../managers/catchAsync.js";
 import { getAllDocs, getDoc, updateDoc, deleteDoc, createDoc, getAllDocsByUser } from "../utils/HandlerFactory.js";
@@ -75,6 +75,7 @@ export const markUploaded = catchAsync(async(req, res, next)=>{
     song.videoRequested.isUploaded=true;
     song.videoRequested.uploadedAt=Date.now();
     song.remarks="Payment Due"
+    song.payment.nextMail=new Date(Date.now() + 12*60*60*1000);
     song.save();
 
     //send mail for uploaded.
