@@ -13,11 +13,14 @@ songRouter.route('/')
 songRouter.route('/:id')
 .get(protect, checkSong, getSong)
 .patch(protect, joiSongUpdateValidator, checkSong, updateSong)
-.delete(protect, deleteSong)
+.delete(protect, (req, res, next)=>{
+    req.body.remarks="User Cancelled";
+    next()
+    }, deleteSong)
 
-songRouter.post("acceptRequest/:id", protect, adminOnly, checkSong, requestAccepted)
-songRouter.post("rejectRequest/:id", protect, adminOnly, checkSong, requestRejected)
-songRouter.post("uploaded/:id", protect, adminOnly, checkSong, markUploaded)
-songRouter.post("paid/:id", protect, adminOnly, checkSong, markPaid)
+songRouter.post("/acceptRequest/:id", protect, adminOnly, checkSong, requestAccepted)
+songRouter.post("/rejectRequest/:id", protect, adminOnly, checkSong, requestRejected)
+songRouter.post("/uploaded/:id", protect, adminOnly, checkSong, markUploaded)
+songRouter.post("/paid/:id", protect, adminOnly, checkSong, markPaid)
 
 export default songRouter;

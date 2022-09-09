@@ -44,6 +44,10 @@ const joiSongUpdateSchema =Joi.object({
 })
 
 export const joiSongCreateValidator = catchAsync(async (req, res, next)=>{
+    req.postingUser= await User.findById(req.body.submittedBy).populate({
+        path:"songs",
+        select:"name"
+    })
     const value= await joiSongCreateSchema.validateAsync(req.body);
     next()
 })

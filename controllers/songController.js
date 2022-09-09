@@ -54,6 +54,7 @@ export const requestRejected = catchAsync(async(req, res, next)=>{
 
 export const markUploaded = catchAsync(async(req, res, next)=>{
     const song= req.song;
+    if(!song.isAccepted) return next(new AppError("Song is not accepted yet.", 400))
     song.videoRequested.isUploaded=true;
     song.videoRequested.uploadedAt=Date.now();
     song.remarks="Payment Due"
@@ -71,6 +72,8 @@ export const markUploaded = catchAsync(async(req, res, next)=>{
 
 export const markPaid = catchAsync(async (req, res, next)=>{
     const song=req.song;
+    if(!song.isAccepted) return next(new AppError("Song is not accepted yet.", 400))
+    else if(!song.videoRequested.isUploaded) return next(new AppError("Video is not uploaded yet.", 400))
     song.payment.isComplete=true;
     song.payment.dueAmount=0;
     song.isClosed=true;
