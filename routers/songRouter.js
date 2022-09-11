@@ -9,7 +9,7 @@ const songRouter = express.Router();
 
 songRouter.route('/')
 .get(protect, getAllSongs)
-.post(protect, songUploadParserer ,joiSongCreateValidator, setDueAmount, discounts, postSong)
+.post(protect, songUploadParserer ,joiSongCreateValidator, resizeCover, setDueAmount, discounts, postSong)
 
 songRouter.route('/:id')
 .get(protect, checkSong, getSong)

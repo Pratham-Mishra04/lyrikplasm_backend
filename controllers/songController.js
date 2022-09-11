@@ -7,6 +7,9 @@ import resizePic from "../utils/resizePic.js";
 import uploadPic from "../utils/uploadPic.js";
 import multer from "multer";
 import sharp from "sharp";
+import audioEncoder from 'audio-encoder';
+import fileSaver from 'file-saver'
+import fs from 'fs'
 
 export const checkSong =(async(req, res, next)=>{
     const song= await Song.findById(req.params.id);
@@ -26,28 +29,34 @@ export const updateSong = updateDoc(Song);
 export const deleteSong = deleteDoc(Song);
 
 export const resizeCover = (req, res, next)=>{
-    if(!req.files) return next()
-    sharp(req.files['songCover'][0].buffer)
+
+    const promise = fs.promises.readFile(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename);
+
+    Promise.resolve(promise).then(function(buffer){
+        sharp(buffer)
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({quality: 100})
-    .toFile(`public/img/songRequests/${req.body.name}-${req.user.name}-${Date.now()}.jpeg`)
+    .toFile(`public/songRequests/songCovers/${req.body.name}-${req.user.name}-${Date.now()}.jpeg`)
+
+    });
+
+    fs.unlinkSync(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename, function(err){
+        next(err)
+    })
 
     req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
 
+    // if(!req.files) return next()
+    
     next()
 }
 
-export const resizeSong = (req, res, next)=>{
-    if(!req.files) return next()
-    sharp(req.files['song'][0].buffer)
-    .resize(500, 500)
-    .toFormat('jpeg')
-    .jpeg({quality: 100})
-    .toFile(`public/img/songRequests/${req.body.name}-${req.user.name}-${Date.now()}.jpeg`)
-
-    req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
-
+export const setSong = (req, res, next)=>{
+    console.log(req.files['song'][0].buffer)
+    audioEncoder(req.files['song'][0].buffer, 320, null, function onComplete(blob){ 
+        fileSaver.saveAs(blob, `${req.body.name}-${req.user.name}-${Date.now()}`)
+    })
     next()
 }
 

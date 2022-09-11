@@ -10,10 +10,12 @@ const storage = multer.diskStorage({
         const rand=Date.now() + path.extname(file.originalname);
         const name=`${req.body.name}-${req.user.name}-${Date.now()}`+ path.extname(file.originalname);
         req.body[`${file.fieldname}`] = name
-        callback(null, file.fieldname + '-' + name);
+        callback(null, name);
     }
 
 })
+
+// const storage = multer.memoryStorage()
 
 const multerFilter = (req, file, cb)=>{    //runs for each file
     if(file.fieldname=='songCover'){ 

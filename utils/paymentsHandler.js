@@ -25,6 +25,7 @@ export const setDueAmount = catchAsync(async(req, res, next)=>{
 })
 
 export const discounts = catchAsync(async(req, res, next)=>{
+    console.log("here at discounts")
     if (req.postingUser.numSongs>2){ // cause at the time of posting 4th song, the current value of numSongs would be 3
         if(req.body.submissionType=='cat1') req.body.payment.dueAmount*=0.85;
         else if(req.body.submissionType=='cat2') req.body.payment.dueAmount*=0.90;

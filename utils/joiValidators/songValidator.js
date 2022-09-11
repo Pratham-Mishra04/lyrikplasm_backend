@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import User from '../../models/userModel.js';
 import catchAsync from '../../managers/catchAsync.js'
+import fs from 'fs'
 
 const joiSongCreateSchema = Joi.object({
     name:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha').required(),
@@ -9,8 +10,8 @@ const joiSongCreateSchema = Joi.object({
         const user= await User.find({_id: value});
         if(!user) return helper.message("No User with this ID found.")
     }),
-    song:Joi.string().required(),
-    songCover:Joi.string().required(),
+    song:Joi.string(),
+    songCover:Joi.string(),
     submittedOn:Joi.forbidden(),
     description: Joi.string().max(50),
     // songCover:Joi.string(),
@@ -45,13 +46,22 @@ const joiSongUpdateSchema =Joi.object({
     payment:Joi.forbidden()
 })
 
-export const joiSongCreateValidator = catchAsync(async (req, res, next)=>{
+export const joiSongCreateValidator = (async (req, res, next)=>{
     if(req.body.videoRequested) req.body.videoRequested=JSON.parse(req.body.videoRequested)
     req.postingUser= await User.findById(req.body.submittedBy).populate({
         path:"songs",
         select:"name"
     })
-    const value= await joiSongCreateSchema.validateAsync(req.body);
+
+    await joiSongCreateSchema.validateAsync(req.body).catch(error=>{
+        fs.unlinkSync(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename, function(err){
+            return next(err)
+        })
+        fs.unlinkSync(req.files['song'][0].destination+'/'+req.files['song'][0].filename, function(err){
+            return next(err)
+        })
+        return next(error)
+    })
     next()
 })
 
