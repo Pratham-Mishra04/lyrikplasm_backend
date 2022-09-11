@@ -1,14 +1,15 @@
 import express from 'express'
 import { adminOnly, protect } from '../Controllers/authController.js';
-import { checkSong, deleteSong, getAllSongs, getSong, markPaid, markUploaded, postSong, requestAccepted, requestRejected, updateSong } from '../controllers/songController.js';
+import { checkSong, deleteSong, getAllSongs, getSong, markPaid, markUploaded, postSong, requestAccepted, requestRejected, resizeCover, updateSong } from '../controllers/songController.js';
 import { joiSongCreateValidator, joiSongUpdateValidator } from '../utils/joiValidators/songValidator.js';
+import songUploadParserer from '../utils/parserers/songUploadParserer.js';
 import { discounts, setDueAmount } from '../utils/paymentsHandler.js';
 
 const songRouter = express.Router();
 
 songRouter.route('/')
 .get(protect, getAllSongs)
-.post(protect, joiSongCreateValidator, setDueAmount, discounts, postSong)
+.post(protect, songUploadParserer ,joiSongCreateValidator, setDueAmount, discounts, postSong)
 
 songRouter.route('/:id')
 .get(protect, checkSong, getSong)

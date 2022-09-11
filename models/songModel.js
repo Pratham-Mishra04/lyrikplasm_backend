@@ -17,7 +17,7 @@ const songSchema = new mongoose.Schema({
         default:Date.now()
     },
     description:String,
-    cover:String,
+    songCover:String,
     isAccepted:{
         type:Boolean,
         default:false

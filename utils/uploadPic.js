@@ -1,6 +1,6 @@
 import multer from "multer";
 
-const multerStrorage= multer.memoryStorage();
+const multerStrorage= multer.memoryStorage();   //look for use
 
 const multerFilter = (req, file, cb)=>{
     if(file.mimetype.startsWith('image')) cb(null, true)
@@ -10,9 +10,12 @@ const multerFilter = (req, file, cb)=>{
 const uploadPhoto = multer({
     storage: multerStrorage,
     fileFilter: multerFilter,
-    limits:{fileSize:5*1024*1024}
+    limits:{fileSize:15*1024*1024}
 })
 
-const uploadPic= name => uploadPhoto.single(`${name}`)
+const uploadPic= name =>(req, res, next)=>{ 
+    uploadPhoto.single(`${name}`);
+    next()
+}
 
 export default uploadPic

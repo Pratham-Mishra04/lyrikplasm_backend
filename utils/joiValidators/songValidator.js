@@ -9,9 +9,11 @@ const joiSongCreateSchema = Joi.object({
         const user= await User.find({_id: value});
         if(!user) return helper.message("No User with this ID found.")
     }),
+    song:Joi.string().required(),
+    songCover:Joi.string().required(),
     submittedOn:Joi.forbidden(),
     description: Joi.string().max(50),
-    // cover:Joi.string(),
+    // songCover:Joi.string(),
     isAccepted:Joi.forbidden(),
     isClosed:Joi.forbidden(),
     remarks:Joi.forbidden(),
@@ -44,6 +46,7 @@ const joiSongUpdateSchema =Joi.object({
 })
 
 export const joiSongCreateValidator = catchAsync(async (req, res, next)=>{
+    if(req.body.videoRequested) req.body.videoRequested=JSON.parse(req.body.videoRequested)
     req.postingUser= await User.findById(req.body.submittedBy).populate({
         path:"songs",
         select:"name"

@@ -5,6 +5,8 @@ import { getAllDocs, getDoc, updateDoc, deleteDoc, createDoc, getAllDocsByUser }
 import sendEmail from "../utils/Email.js";
 import resizePic from "../utils/resizePic.js";
 import uploadPic from "../utils/uploadPic.js";
+import multer from "multer";
+import sharp from "sharp";
 
 export const checkSong =(async(req, res, next)=>{
     const song= await Song.findById(req.params.id);
@@ -22,6 +24,32 @@ export const postSong = createDoc(Song)
 export const updateSong = updateDoc(Song);
 
 export const deleteSong = deleteDoc(Song);
+
+export const resizeCover = (req, res, next)=>{
+    if(!req.files) return next()
+    sharp(req.files['songCover'][0].buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({quality: 100})
+    .toFile(`public/img/songRequests/${req.body.name}-${req.user.name}-${Date.now()}.jpeg`)
+
+    req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
+
+    next()
+}
+
+export const resizeSong = (req, res, next)=>{
+    if(!req.files) return next()
+    sharp(req.files['song'][0].buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({quality: 100})
+    .toFile(`public/img/songRequests/${req.body.name}-${req.user.name}-${Date.now()}.jpeg`)
+
+    req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
+
+    next()
+}
 
 export const requestAccepted = catchAsync(async(req, res, next)=>{
     const song= req.song;
