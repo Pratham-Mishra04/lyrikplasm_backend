@@ -30,6 +30,8 @@ export const deleteSong = deleteDoc(Song);
 
 export const resizeCover = (req, res, next)=>{
 
+    if(!req.files) return next()
+
     const promise = fs.promises.readFile(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename);
 
     Promise.resolve(promise).then(function(buffer){
@@ -46,17 +48,7 @@ export const resizeCover = (req, res, next)=>{
     })
 
     req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
-
-    // if(!req.files) return next()
     
-    next()
-}
-
-export const setSong = (req, res, next)=>{
-    console.log(req.files['song'][0].buffer)
-    audioEncoder(req.files['song'][0].buffer, 320, null, function onComplete(blob){ 
-        fileSaver.saveAs(blob, `${req.body.name}-${req.user.name}-${Date.now()}`)
-    })
     next()
 }
 

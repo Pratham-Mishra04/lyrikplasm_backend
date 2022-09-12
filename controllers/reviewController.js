@@ -5,6 +5,8 @@ import { getAllDocs, getDoc, updateDoc, deleteDoc, createDoc, getAllDocsByUser }
 import sendEmail from "../utils/Email.js";
 import resizePic from "../utils/resizePic.js";
 import uploadPic from "../utils/uploadPic.js";
+import fs from 'fs'
+import sharp from 'sharp'
 
 export const checkReview = id =>catchAsync(async(req, res, next)=>{
     const review= await Review.findById(id);
@@ -50,3 +52,26 @@ export const markClosed = catchAsync(async (req, res, next)=>{
     })
 })
 
+export const resizeCover = (req, res, next)=>{
+
+    if(!req.files) return next()
+
+    const promise = fs.promises.readFile(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename);
+
+    Promise.resolve(promise).then(function(buffer){
+        sharp(buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({quality: 100})
+    .toFile(`public/reviewRequests/songCovers/${req.body.songName}-${req.user.name}-${Date.now()}.jpeg`)
+
+    });
+
+    fs.unlinkSync(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename, function(err){
+        next(err)
+    })
+
+    req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
+    
+    next()
+}

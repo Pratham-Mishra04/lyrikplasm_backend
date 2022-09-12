@@ -10,8 +10,8 @@ const joiSongCreateSchema = Joi.object({
         const user= await User.find({_id: value});
         if(!user) return helper.message("No User with this ID found.")
     }),
-    song:Joi.string(),
-    songCover:Joi.string(),
+    song:Joi.string().required(),
+    songCover:Joi.string().required(),
     submittedOn:Joi.forbidden(),
     description: Joi.string().max(50),
     // songCover:Joi.string(),
@@ -54,9 +54,11 @@ export const joiSongCreateValidator = (async (req, res, next)=>{
     })
 
     await joiSongCreateSchema.validateAsync(req.body).catch(error=>{
+        if(req.files['songCover'])
         fs.unlinkSync(req.files['songCover'][0].destination+'/'+req.files['songCover'][0].filename, function(err){
             return next(err)
         })
+        if(req.files['song'])
         fs.unlinkSync(req.files['song'][0].destination+'/'+req.files['song'][0].filename, function(err){
             return next(err)
         })

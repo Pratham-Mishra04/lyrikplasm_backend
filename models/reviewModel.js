@@ -19,10 +19,10 @@ const reviewSchema = new mongoose.Schema({
     songType:{
         type:String,
         enum:{
-            values:['orginal','cover','remix','mashup']
+            values:['original','cover','remix','mashup']
         }
     },
-    cover:String,
+    songCover:String,
     requestedAt:{
         type:Date,
         default:Date.now()

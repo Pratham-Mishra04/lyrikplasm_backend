@@ -1,13 +1,14 @@
 import express from 'express'
 import { adminOnly, protect } from '../Controllers/authController.js';
-import { checkReview, deleteReview, getAllReviews, getReview, markAnswered, markClosed, postReview, updateReview } from '../controllers/reviewController.js';
+import { checkReview, deleteReview, getAllReviews, getReview, markAnswered, markClosed, postReview, resizeCover, updateReview } from '../controllers/reviewController.js';
 import { joiReviewCreateValidator } from '../utils/joiValidators/reviewValidator.js';
+import reviewUploadParserer from '../utils/parserers/reviewUploadParserer.js';
 
 const reviewRouter = express.Router();
 
 reviewRouter.route('/')
 .get(protect, getAllReviews)
-.post(protect, joiReviewCreateValidator, postReview)
+.post(protect, reviewUploadParserer, joiReviewCreateValidator, resizeCover, postReview)
 
 reviewRouter.route('/:id')
 .get(protect, checkReview, getReview)
