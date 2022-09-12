@@ -39,7 +39,7 @@ export const resizeCover = (req, res, next)=>{
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({quality: 100})
-    .toFile(`public/songRequests/songCovers/${req.body.name}-${req.user.name}-${Date.now()}.jpeg`)
+    .toFile(`public/songRequests/songCovers/${req.body.songName}-${req.user.name}-${Date.now()}.jpeg`)
 
     });
 

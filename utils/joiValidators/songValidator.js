@@ -4,7 +4,7 @@ import catchAsync from '../../managers/catchAsync.js'
 import fs from 'fs'
 
 const joiSongCreateSchema = Joi.object({
-    name:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha').required(),
+    songName:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha').required(),
     // song:Joi.string().required(),
     submittedBy:Joi.string().required().custom(async (value, helper)=>{
         const user= await User.find({_id: value});
@@ -30,7 +30,7 @@ const joiSongCreateSchema = Joi.object({
 })
 
 const joiSongUpdateSchema =Joi.object({
-    name:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha'),
+    songName:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha'),
     // song:Joi.forbidden(),
     submittedBy:Joi.forbidden(),
     submittedOn:Joi.forbidden(),
@@ -50,7 +50,7 @@ export const joiSongCreateValidator = (async (req, res, next)=>{
     if(req.body.videoRequested) req.body.videoRequested=JSON.parse(req.body.videoRequested)
     req.postingUser= await User.findById(req.body.submittedBy).populate({
         path:"songs",
-        select:"name"
+        select:"songName"
     })
 
     await joiSongCreateSchema.validateAsync(req.body).catch(error=>{
