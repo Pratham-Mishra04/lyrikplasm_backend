@@ -5,7 +5,6 @@ import fs from 'fs'
 
 const joiSongCreateSchema = Joi.object({
     songName:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha').required(),
-    // song:Joi.string().required(),
     submittedBy:Joi.string().required().custom(async (value, helper)=>{
         const user= await User.find({_id: value});
         if(!user) return helper.message("No User with this ID found.")
@@ -14,7 +13,6 @@ const joiSongCreateSchema = Joi.object({
     songCover:Joi.string().required(),
     submittedOn:Joi.forbidden(),
     description: Joi.string().max(50),
-    // songCover:Joi.string(),
     isAccepted:Joi.forbidden(),
     isClosed:Joi.forbidden(),
     remarks:Joi.forbidden(),
@@ -31,11 +29,11 @@ const joiSongCreateSchema = Joi.object({
 
 const joiSongUpdateSchema =Joi.object({
     songName:Joi.string().pattern(/^[A-Za-z]+$/, 'alpha'),
-    // song:Joi.forbidden(),
+    song:Joi.forbidden(),
     submittedBy:Joi.forbidden(),
     submittedOn:Joi.forbidden(),
     description: Joi.string().max(50),
-    // cover:Joi.string(),
+    cover:Joi.string(),
     isAccepted:Joi.forbidden(),
     isClosed:Joi.forbidden(),
     remarks:Joi.forbidden(),

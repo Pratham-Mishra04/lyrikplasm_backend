@@ -9,7 +9,6 @@ const resizePic = (model, d1, d2) => (req, res, next)=>{
     .jpeg({quality: 100})
     .toFile(`public/img/${model}s/${req.file.originalname}`)
 
-    if(model=="songRequest") model=req.body.name
     req.file.filename = `${model}-${req.user.id}-${Date.now()}.jpeg`;
 
     next()

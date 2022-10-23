@@ -1,6 +1,6 @@
 import multer from "multer";
 
-const multerStrorage= multer.memoryStorage();   //look for use
+const multerStrorage= multer.memoryStorage();  //creates a buffer in the memory
 
 const multerFilter = (req, file, cb)=>{
     if(file.mimetype.startsWith('image')) cb(null, true)

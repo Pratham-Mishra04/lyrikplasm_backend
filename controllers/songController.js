@@ -47,7 +47,7 @@ export const resizeCover = (req, res, next)=>{
         next(err)
     })
 
-    req.body.songCover = `${req.body.name}-${req.user.name}-${Date.now()}.jpeg`;
+    req.body.songCover = `${req.body.songName}-${req.user.name}-${Date.now()}.jpeg`;
     
     next()
 }

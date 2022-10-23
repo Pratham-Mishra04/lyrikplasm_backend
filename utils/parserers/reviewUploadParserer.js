@@ -5,6 +5,7 @@ import multer from "multer";
 const upload = multer({
     fileFilter: multerFilter,
     storage:multerDiskStorage("review"),
+    limits:{fileSize:15*1024*1024}
     });
 
 const reviewUploadParserer= upload.fields([{

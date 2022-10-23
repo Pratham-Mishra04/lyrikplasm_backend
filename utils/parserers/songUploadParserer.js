@@ -5,6 +5,7 @@ import multerDiskStorage from "../multerConfigs/multerDiskStorage.js";
 const upload = multer({
     fileFilter: multerFilter,
     storage:multerDiskStorage("song"),
+    limits:{fileSize:15*1024*1024}
     });
 
 const songUploadParserer= upload.fields([{

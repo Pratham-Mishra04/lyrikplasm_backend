@@ -2,9 +2,9 @@
   "name": "interact",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "type": "module",
   "author": "",
@@ -29,6 +29,7 @@
     "nodemon": "^2.0.18",
     "sharp": "^0.30.7",
     "slugify": "^1.6.5",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "winston": "^3.8.2"
   }
 }
